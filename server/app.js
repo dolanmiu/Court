@@ -9,6 +9,12 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+var court = require('./routes/court');
+
+server.listen(3001);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -56,5 +62,7 @@ app.use(function(err, req, res, next) {
     });
 });
 
+court(io);
 
 module.exports = app;
+module.exports.io = io;
